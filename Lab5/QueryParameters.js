@@ -20,5 +20,5 @@ export default function QueryParameters(app) {
    }
    res.send(result.toString());
  };
- app.get("lab5/calculator", calculator);
+ app.get("/lab5/calculator", calculator);
 }

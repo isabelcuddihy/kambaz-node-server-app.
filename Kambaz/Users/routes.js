@@ -3,10 +3,26 @@ import UsersDao from "./dao.js";
 
 export default function UserRoutes(app, db) {
  const dao = UsersDao(db);
-  const createUser = (req, res) => { };
-  const deleteUser = (req, res) => { };
-  const findAllUsers = (req, res) => { };
-  const findUserById = (req, res) => { };
+  const createUser = (req, res) => {
+  const newUser = dao.createUser(req.body);
+  res.json(newUser);
+};
+
+const deleteUser = (req, res) => {
+  const { userId } = req.params;
+  dao.deleteUser(userId);
+  res.sendStatus(200);
+};
+
+  const findAllUsers = (req, res) => { 
+  const users = dao.findAllUsers();
+  res.json(users);
+};
+ const findUserById = (req, res) => {
+  const { userId } = req.params;
+  const user = dao.findUserById(userId);
+  res.json(user);
+};
   const updateUser = (req, res) => {
     const userId = req.params.userId;
     const userUpdates = req.body;
@@ -31,11 +47,12 @@ export default function UserRoutes(app, db) {
     const currentUser = dao.findUserByCredentials(username, password);
     if (currentUser) {
       req.session["currentUser"] = currentUser;
+      res.json(currentUser);
     } else {
       res.status(401).json({ message: "Unable to login. Try again later." });
     }
 
-    res.json(currentUser);
+    
    };
 
   const signout = (req, res) => {

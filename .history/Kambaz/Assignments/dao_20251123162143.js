@@ -18,9 +18,7 @@ async function deleteAssignment(courseId, assignmentId) {
   const status = await courseModel.updateOne(
      { _id: courseId },
      { $pull: { assignments: { _id: assignmentId } } }
-   );
-  return status;
-}
+   );}
 
 async function updateAssignment(courseId, assignmentId, assignmentUpdates) {
   const course = await courseModel.findById(courseId);

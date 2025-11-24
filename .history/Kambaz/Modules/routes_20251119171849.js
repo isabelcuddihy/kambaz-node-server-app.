@@ -3,7 +3,9 @@ export default function ModulesRoutes(app) {
   const dao = ModulesDao();
  const findModulesForCourse = async (req, res) => {
   const { courseId } = req.params;
+  console.log("Finding modules for course:", courseId);
   const modules = await dao.findModulesForCourse(courseId);
+  console.log("Modules found:", modules);
   res.json(modules);
 }
 
@@ -13,13 +15,12 @@ export default function ModulesRoutes(app) {
       ...req.body,
       course: courseId,
     };
-    const newModule = await dao.createModule(courseId, module);
+    const newModule = await dao.createModule(module);
     res.send(newModule);
   }
   const deleteModule = async (req, res) => {
   const { courseId } = req.params;
-  const { moduleId } = req.params;
-  const status = await dao.deleteModule(courseId, moduleId);
+  const status = await dao.deleteModule(courseId);
   res.send(status);
 }
 const updateModule = async (req, res) => {

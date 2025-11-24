@@ -30,6 +30,6 @@ const updateAssignment = async (req, res) => {
 }
 app.put("/api/courses/:courseId/assignments/:assignmentId", updateAssignment);
 app.delete("/api/courses/:courseId/assignments/:assignmentId", deleteAssignment);
-app.post("/api/courses/:courseId/assignments/", createAssignmentForCourse);
-app.get("/api/courses/:courseId/assignments/", findAssignmentsForCourse);
+  app.post("/api/courses/:courseId/assignments/", createAssignmentForCourse);
+  app.get("/api/courses/:courseId/assignments/", findAssignmentsForCourse);
 }

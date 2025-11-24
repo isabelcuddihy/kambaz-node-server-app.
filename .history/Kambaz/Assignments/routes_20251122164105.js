@@ -4,7 +4,7 @@ export default function AssignmentRoutes(app) {
   const findAssignmentsForCourse = async (req, res) => {
     const { courseId } = req.params;
   const assignments = await dao.findAssignmentsForCourse(courseId);
-  res.json(assignments);
+  res.json(assignments ? [] : assignments);
   }
    const createAssignmentForCourse = async (req, res) => {
     const { courseId } = req.params;

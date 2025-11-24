@@ -2,7 +2,6 @@ import express from 'express';
 import Hello from "./Hello.js";
 import Lab5 from "./Lab5/index.js";
 import cors from "cors";
-import db from "./Kambaz/Database/index.js";
 import UserRoutes from "./Kambaz/Users/routes.js";
 import "dotenv/config";
 import session from "express-session";
@@ -11,11 +10,7 @@ import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import EnrollmentRoutes from "./Kambaz/Enrollments/routes.js";
 import AssignmentRoutes from './Kambaz/Assignments/routes.js';
 const app = express();
-app.use(cors({
-   credentials: true,
-   origin: process.env.CLIENT_URL || "http://localhost:3000",
- })
-);
+
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
@@ -30,12 +25,17 @@ if (process.env.SERVER_ENV !== "development") {
   };
 }
 app.use(session(sessionOptions));
+app.use(cors({
+   credentials: true,
+   origin: process.env.CLIENT_URL || "http://localhost:3000",
+ })
+);
 app.use(express.json());
-UserRoutes(app, db);
-CourseRoutes(app, db);
-ModuleRoutes(app, db);
-EnrollmentRoutes(app, db);
-AssignmentRoutes(app, db);
+UserRoutes(app);
+CourseRoutes(app);
+ModuleRoutes(app);
+EnrollmentRoutes(app);
+AssignmentRoutes(app);
 
 Lab5(app);
 Hello(app);

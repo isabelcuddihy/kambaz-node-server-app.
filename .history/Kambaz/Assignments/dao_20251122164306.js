@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+
 import model from "./model.js";
 import courseModel from "../Courses/model.js";
 export default function AssignmentsDao() {
@@ -8,22 +9,20 @@ export default function AssignmentsDao() {
  }
  async function createAssignment(courseId, assignment) {
   const newAssignment = { ...assignment, _id: uuidv4() };
-  const status = await courseModel.updateOne(
+  const status = await model.updateOne(
      { _id: courseId },
      { $push: { assignments: newAssignment } }
    );
   return newAssignment;
 }
 async function deleteAssignment(courseId, assignmentId) {
-  const status = await courseModel.updateOne(
+  const status = await model.updateOne(
      { _id: courseId },
      { $pull: { assignments: { _id: assignmentId } } }
-   );
-  return status;
-}
+   );}
 
 async function updateAssignment(courseId, assignmentId, assignmentUpdates) {
-  const course = await courseModel.findById(courseId);
+  const course = await model.findById(courseId);
   const assignment = await course.assignments.id(assignmentId);
    Object.assign(assignment, assignmentUpdates);
    await course.save();

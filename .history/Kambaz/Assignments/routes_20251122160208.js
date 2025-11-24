@@ -12,7 +12,7 @@ export default function AssignmentRoutes(app) {
       ...req.body,
       course: courseId,
     };
-    const newAssignment = await dao.createAssignment(courseId, assignment);
+    const newAssignment = await dao.createAssignment(assignment);
     res.send(newAssignment);
   }
   const deleteAssignment = async (req, res) => {
@@ -28,8 +28,8 @@ const updateAssignment = async (req, res) => {
   const status = await dao.updateAssignment(courseId, assignmentId, assignmentUpdates);
   res.send(status);
 }
-app.put("/api/courses/:courseId/assignments/:assignmentId", updateAssignment);
-app.delete("/api/courses/:courseId/assignments/:assignmentId", deleteAssignment);
-app.post("/api/courses/:courseId/assignments/", createAssignmentForCourse);
-app.get("/api/courses/:courseId/assignments/", findAssignmentsForCourse);
+app.put("/api/assignments/:assignmentId", updateAssignment);
+app.delete("/api/assignments/:assignmentId", deleteAssignment);
+  app.post("/api/courses/:courseId/assignments", createAssignmentForCourse);
+  app.get("/api/courses/:courseId/assignments", findAssignmentsForCourse);
 }

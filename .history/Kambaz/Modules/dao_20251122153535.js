@@ -7,7 +7,7 @@ export default function ModulesDao() {
  
  }
 async function createModule(courseId, module) {
-   const newModule = { ...module, _id: uuidv4() };
+   const newModule = { ...module, _id: String(uuidv4()) };
    const status = await model.updateOne(
      { _id: courseId },
      { $push: { modules: newModule } }

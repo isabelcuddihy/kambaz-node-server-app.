@@ -1,7 +1,6 @@
 import express from 'express';
 import Hello from "./Hello.js";
 import Lab5 from "./Lab5/index.js";
-import mongoose from "mongoose";
 import cors from "cors";
 import UserRoutes from "./Kambaz/Users/routes.js";
 import "dotenv/config";

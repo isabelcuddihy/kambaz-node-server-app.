@@ -56,7 +56,7 @@ const deleteUser = async (req, res) => {
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);
     if (currentUser) {
-      req.session["currentUser"] = currentUser;
+      req.session["currentUser"] = currentUser.toObject() ? currentUser.toObject() :currentUser;
       res.json(currentUser);
     } else {
       res.status(401).json({ message: "Unable to login. Try again later." });
@@ -94,7 +94,7 @@ const deleteUser = async (req, res) => {
   app.put("/api/users/:userId", updateUser);
   app.delete("/api/users/:userId", deleteUser);
   app.post("/api/users/signup", signup);
-  app.post("/api/users/signin", signin);
+  app.get("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
-  app.post("/api/users/profile", profile);
+  app.get("/api/users/profile", profile);
 }

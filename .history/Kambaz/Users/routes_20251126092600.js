@@ -1,6 +1,7 @@
 import UsersDao from "./dao.js";
 let currentUser = null;
 
+
 export default function UserRoutes(app) {
  const dao = UsersDao();
  
@@ -8,7 +9,6 @@ export default function UserRoutes(app) {
     const user = await dao.createUser(req.body);
     res.json(user);
   };
-
 
 const deleteUser = async (req, res) => {
       const status = await dao.deleteUser(req.params.userId);
@@ -44,9 +44,10 @@ const deleteUser = async (req, res) => {
 
   const updateUser = async (req, res) => {
     const { userId } = req.params;
+
     const userUpdates = req.body;
-    await dao.updateUser(userId, userUpdates);
-    const currentUser = await dao.findUserById(userId);
+    dao.updateUser(userId, userUpdates);
+    const currentUser = dao.findUserById(userId);
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
@@ -54,7 +55,7 @@ const deleteUser = async (req, res) => {
 
   const signin = async (req, res) => {
     const { username, password } = req.body;
-    const currentUser = await dao.findUserByCredentials(username, password);
+    const currentUser = dao.findUserByCredentials(username, password);
     if (currentUser) {
       req.session["currentUser"] = currentUser;
       res.json(currentUser);
@@ -72,6 +73,8 @@ const deleteUser = async (req, res) => {
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
+
+
 
 
   const signout = (req, res) => {
@@ -97,4 +100,4 @@ const deleteUser = async (req, res) => {
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
-}
+};

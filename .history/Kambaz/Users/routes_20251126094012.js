@@ -10,6 +10,7 @@ export default function UserRoutes(app) {
   };
 
 
+
 const deleteUser = async (req, res) => {
       const status = await dao.deleteUser(req.params.userId);
       res.json(status);
@@ -72,6 +73,8 @@ const deleteUser = async (req, res) => {
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
+
+
 
 
   const signout = (req, res) => {

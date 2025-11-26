@@ -9,44 +9,26 @@ export default function UserRoutes(app) {
     res.json(user);
   };
 
+const deleteUser = (req, res) => {
+  const { userId } = req.params;
+  dao.deleteUser(userId);
+  res.sendStatus(200);
+};
 
-const deleteUser = async (req, res) => {
-      const status = await dao.deleteUser(req.params.userId);
-      res.json(status);
-  };
-
-
- const findAllUsers = async (req, res) => {
-    const { role, name } = req.query;
-    if (role) {
-      const users = await dao.findUsersByRole(role);
-      res.json(users);
-      return;
-    }
-     if (name) {
-      const users = await dao.findUsersByPartialName(name);
-      res.json(users);
-      return;
-    }
-
-    const users = await dao.findAllUsers();
-    res.json(users);
-  };
-
-  app.get("/api/users", findAllUsers);
-
-  
-
-  const findUserById = async (req, res) => {
-    const user = await dao.findUserById(req.params.userId);
-    res.json(user);
-  };
-
-  const updateUser = async (req, res) => {
-    const { userId } = req.params;
+  const findAllUsers = (req, res) => { 
+  const users = dao.findAllUsers();
+  res.json(users);
+};
+ const findUserById = (req, res) => {
+  const { userId } = req.params;
+  const user = dao.findUserById(userId);
+  res.json(user);
+};
+  const updateUser = (req, res) => {
+    const userId = req.params.userId;
     const userUpdates = req.body;
-    await dao.updateUser(userId, userUpdates);
-    const currentUser = await dao.findUserById(userId);
+    dao.updateUser(userId, userUpdates);
+    const currentUser = dao.findUserById(userId);
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
@@ -54,7 +36,7 @@ const deleteUser = async (req, res) => {
 
   const signin = async (req, res) => {
     const { username, password } = req.body;
-    const currentUser = await dao.findUserByCredentials(username, password);
+    const currentUser = dao.findUserByCredentials(username, password);
     if (currentUser) {
       req.session["currentUser"] = currentUser;
       res.json(currentUser);
@@ -72,6 +54,8 @@ const deleteUser = async (req, res) => {
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
+
+    
 
 
   const signout = (req, res) => {

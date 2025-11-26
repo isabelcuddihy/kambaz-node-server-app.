@@ -1,14 +1,27 @@
 import UsersDao from "./dao.js";
 let currentUser = null;
 
+
 export default function UserRoutes(app) {
  const dao = UsersDao();
  
+
  const createUser = async (req, res) => {
     const user = await dao.createUser(req.body);
     res.json(user);
   };
 
+  const findAllUsers = (req, res) => { 
+  const users = dao.findAllUsers();
+  res.json(users);
+};
+ const findUserById = (req, res) => {
+  const { userId } = req.params;
+  const user = dao.findUserById(userId);
+  res.json(user);
+};
+  const updateUser = (req, res) => {
+    const userId = req.params.userId;
 
 const deleteUser = async (req, res) => {
       const status = await dao.deleteUser(req.params.userId);
@@ -33,8 +46,11 @@ const deleteUser = async (req, res) => {
     res.json(users);
   };
 
+<<<<<<< HEAD
   app.get("/api/users", findAllUsers);
 
+=======
+>>>>>>> main
   
 
   const findUserById = async (req, res) => {
@@ -44,15 +60,40 @@ const deleteUser = async (req, res) => {
 
   const updateUser = async (req, res) => {
     const { userId } = req.params;
+<<<<<<< HEAD
+>>>>>>> Stashed changes
+=======
+>>>>>>> main
     const userUpdates = req.body;
     await dao.updateUser(userId, userUpdates);
-    const currentUser = await dao.findUserById(userId);
-    req.session["currentUser"] = currentUser;
+    const currentUser = req.session["currentUser"];
+   if (currentUser && currentUser._id === userId) {
+     req.session["currentUser"] = { ...currentUser, ...userUpdates };
+   }
     res.json(currentUser);
   };
 
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+  const signup = (req, res) => {const user = dao.findUserByUsername(req.body.username);
+    if (user) {
+      res.status(400).json(
+        { message: "Username already in use" });
+      return;
+    }
+    const currentUser = dao.createUser(req.body);
+    req.session["currentUser"] = currentUser;
+    res.json(currentUser);
+ };
+  const signin = (req, res) => {
+=======
 
   const signin = async (req, res) => {
+>>>>>>> Stashed changes
+=======
+
+    const signin = async (req, res) => {
+>>>>>>> main
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);
     if (currentUser) {
@@ -61,6 +102,11 @@ const deleteUser = async (req, res) => {
     } else {
       res.status(401).json({ message: "Unable to login. Try again later." });
     }
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> main
   };
   const signup = async (req, res) => {
     const user = await dao.findUserByUsername(req.body.username);
@@ -68,10 +114,20 @@ const deleteUser = async (req, res) => {
       res.status(400).json({ message: "Username already taken" });
       return;
     }
+<<<<<<< HEAD
     const currentUser = await dao.createUser(req.body);
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
+>>>>>>> Stashed changes
+=======
+  const currentUser = await dao.createUser(req.body);
+    req.session["currentUser"] = currentUser;
+    res.json(currentUser);
+  };
+>>>>>>> main
+
+
 
 
   const signout = (req, res) => {

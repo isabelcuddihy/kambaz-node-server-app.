@@ -45,8 +45,8 @@ const deleteUser = async (req, res) => {
   const updateUser = async (req, res) => {
     const { userId } = req.params;
     const userUpdates = req.body;
-    await dao.updateUser(userId, userUpdates);
-    const currentUser = await dao.findUserById(userId);
+    dao.updateUser(userId, userUpdates);
+    const currentUser = dao.findUserById(userId);
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
@@ -54,7 +54,7 @@ const deleteUser = async (req, res) => {
 
   const signin = async (req, res) => {
     const { username, password } = req.body;
-    const currentUser = await dao.findUserByCredentials(username, password);
+    const currentUser = dao.findUserByCredentials(username, password);
     if (currentUser) {
       req.session["currentUser"] = currentUser;
       res.json(currentUser);

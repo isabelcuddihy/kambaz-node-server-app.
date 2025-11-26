@@ -1,8 +1,7 @@
-import model from "./model.js";
 import { v4 as uuidv4 } from "uuid";
 export default function UsersDao() {
-  const createUser = (user) => {
-  const newUser = { ...user, _id: uuidv4() };
+ const createUser = (user) => {
+    const newUser = { ...user, _id: uuidv4() };
   return model.create(newUser);
 }
 
@@ -18,10 +17,10 @@ export default function UsersDao() {
   return model.find({
     $or: [{ firstName: { $regex: regex } }, { lastName: { $regex: regex } }],
   });
-};
-
-
-  return { createUser, findAllUsers, findUserById, findUsersByRole, findUserByUsername, findUserByCredentials, 
-    updateUser, deleteUser, findUsersByPartialName };
+  };
+  
+  return {
+    createUser, findAllUsers, findUserById, findUserByUsername, 
+    findUserByCredentials, updateUser, deleteUser
+  };
 }
-

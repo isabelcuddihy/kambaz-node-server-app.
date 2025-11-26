@@ -14,12 +14,7 @@ import AssignmentRoutes from './Kambaz/Assignments/routes.js';
 const CONNECTION_STRING = process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
 mongoose.connect(CONNECTION_STRING);
 const app = express();
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-  })
-);
+
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
@@ -30,12 +25,16 @@ if (process.env.SERVER_ENV !== "development") {
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
-    domain: process.env.SERVER_URL,
+    httpOnly: true,
   };
 }
+app.use(cors({
+   credentials: true,
+   origin: process.env.CLIENT_URL || "http://localhost:3000",
+ })
+);
 app.use(session(sessionOptions));
 app.use(express.json());
-
 UserRoutes(app);
 CourseRoutes(app);
 ModuleRoutes(app);

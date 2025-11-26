@@ -26,7 +26,7 @@ const sessionOptions = {
     secure: true,
     domain: process.env.SERVER_URL,
   };
-
+}
 app.use(session(sessionOptions));
 app.use(cors({
    credentials: true,

@@ -22,11 +22,11 @@ const sessionOptions = {
 };
   sessionOptions.proxy = true;
   sessionOptions.cookie = {
-    sameSite: "none",
+    sameSite: true,
     secure: true,
     domain: process.env.SERVER_URL,
   };
-
+}
 app.use(session(sessionOptions));
 app.use(cors({
    credentials: true,
